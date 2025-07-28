@@ -15,8 +15,8 @@ def player_name():
 class Field:
     '''Initialize the field with a grid and place carrots.'''
     def __init__(self, size: int, num_carrots: int):
-        self.grid: set[tuple[int, int]] = [['*'] for _ in range(size)]
-        self.size: int = size # size (int) of the grid (x*x)
+        self.grid: list[list[str]] = [['*' for _ in range(size)] for _ in range(size)]
+        self.size: int = size # sizes of a squared grid (x*x)
         self.num_carrots: int = num_carrots #hidden carrots (int)
 
         self.carrots: set[tuple[int, int]] = set()
@@ -36,11 +36,11 @@ class Field:
     def dig(self, x: int, y: int):
         '''Digging at coordinates (x, y) and check if it is carrot at this position.'''
         if not (0 <= x < self.size and 0 <= y < self.size):
-            print("Oh, no! Invalid coordinates, try whithin the grid size.")
+            print('Oh, no! Invalid coordinates, try whithin the grid size.')
             return False
         
         if (x, y) in self.found:
-            print("Already dug this spot, try another one.")
+            print('Already dug this spot, try another one.')
             return False
         
         self.found.add((x, y))
@@ -50,7 +50,7 @@ class Field:
             print("You found a carrot!")
         else:
             self.grid[x][y] = 'X'
-            print("Nothing here.")
+            print('Nothing here.')
         return True
     
 
@@ -60,7 +60,7 @@ class Field:
         for i in range(self.size):
             row =[]
             for j in range(self.size):
-                if (i, j) in self.founds:
+                if (i, j) in self.found:
                     row.append(self.grid[i][j])
                 else:
                     row.append('*')
@@ -69,7 +69,7 @@ class Field:
 
     def carrots_remaining(self):
         '''Returns the amount of carrots to be found.'''
-        return len(self.carrots - self.founds)    
+        return len(self.carrots - self.found)    
 
 # Game loop
 def game_loop():
@@ -88,11 +88,12 @@ def game_loop():
     print('*' * 50)
     # Game Instructions
     print(f'Dig to find {num_carrots} carrots in a {size}x{size} field.')
-    while len(field.carrots & field.founds) < num_carrots:
+    while len(field.carrots & field.found) < num_carrots:
         field.display()
         try:      # get user imputs for coordinates
-            x: int = int(input(f'Enter row (0 to {size - 1}): '))
-            y: int = int(input(f'Enter column (0 to {size-1}): '))
+            x = int(input(f'Enter row (0 to {size - 1}): '))
+            y = int(input(f'Enter column (0 to {size-1}): '))
+            field.dig(x, y)
         except ValueError:
             print(f'Invalid entry, please enter only integers between 0 and {size-1}.')
     # end the game when all carrots are collected    
