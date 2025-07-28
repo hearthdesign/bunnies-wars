@@ -54,7 +54,22 @@ class Field:
         return True
     
 
+    def display(self):
+        '''Display the grid and what so far has been found.'''
+        print("\nField:")
+        for i in range(self.size):
+            row =[]
+            for j in range(self.size):
+                if (i, j) in self.founds:
+                    row.append(self.grid[i][j])
+                else:
+                    row.append('*')
+            print(' '.join(row))
+        print()
 
+    def carrots_remaining(self):
+        '''Returns the amount of carrots to be found.'''
+        return len(self.carrots - self.founds)    
 
 # begin game loop 
 # dig to collect carrots in turns (player 1, PC)
