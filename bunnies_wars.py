@@ -57,14 +57,20 @@ class Field:
     def display(self):
         '''Display the grid and what so far has been found.'''
         print("\nField:")
+        # Print column headers
+        col_headers = "   " + " ".join(f"{j}" for j in range(self.size))
+        # print column header
+        print(col_headers)
         for i in range(self.size):
             row =[]
+
             for j in range(self.size):
                 if (i, j) in self.found:
                     row.append(self.grid[i][j])
                 else:
-                    row.append('*')
-            print(' '.join(row))
+                    row.append('*') # Hidden tile
+            # Print row number and row contents
+            print(f"{i}  " + " ".join(row))
         print()
 
     def carrots_remaining(self):
