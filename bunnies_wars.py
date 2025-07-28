@@ -1,13 +1,14 @@
 import random
 
-# input player name print welcome message
 
+# input player name print welcome message
 def player_name():
     name= input('Enter your name: ').strip()
     if not name:
         name= 'Bunny One'
         print(f'\n Welcome {name} to the Bunnies Wars game!\n')
         return name
+    
 
 # Class Field (self, size, num_carrots).
 # create 2 field for user and computer with a given size and number of carrots.
@@ -23,6 +24,7 @@ class Field:
 
         self.place_carrots()
 
+
 # place carrots for pc randomly.
     def place_carrots(self):
         while len(self.carrots) < self.num_carrots:
@@ -30,8 +32,27 @@ class Field:
             y = random.randint(0, self size -1)
             self.carrots.add((x, y))
 
-    
 
+    def dig(self, x: int, y: int):
+        '''Digging at coordinates (x, y) and check if it is carrot at this position.'''
+        if not (0 <= x < self.size and 0 <= y < self.size):
+            print("Oh, no! Invalid coordinates, try whithin the grid size.")
+            return False
+        
+        if (x, y) in self.found:
+            print("Already dug this spot, try another one.")
+            return False
+        
+        self.found.add((x, y))
+
+        if (x, y) in self.carrots:
+            self.grid[x][y] = 'C'
+            print("You found a carrot!")
+        else:
+            self.grid[x][y] = 'X'
+            print("Nothing here.")
+        return True
+    
 
 
 
