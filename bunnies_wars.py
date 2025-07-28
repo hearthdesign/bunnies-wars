@@ -29,7 +29,7 @@ class Field:
     def place_carrots(self):
         while len(self.carrots) < self.num_carrots:
             x = random.randint(0, self.size -1)
-            y = random.randint(0, self size -1)
+            y = random.randint(0, self.size -1)
             self.carrots.add((x, y))
 
 
