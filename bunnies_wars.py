@@ -99,9 +99,9 @@ def game_loop():
     print('The game ends when all the carrots are found. Try to find them all! (...before the PC-Bunny') 
     print('Good Luck!\n')
     # Game Title
-    print('*' * 50)
-    print('*** Welcome to Bunnies Wars! ***')
-    print('*' * 50)
+    print('*' * 34)
+    print('***  Welcome to Bunnies Wars!  ***')
+    print('*' * 34)
     # Game Instructions
     print(f'Dig to find {num_carrots} carrots in a {size}x{size} field.')
     while len(field.carrots & field.found) < num_carrots:
