@@ -19,11 +19,12 @@ class Field:
         self.found: set[tuple[int, int]] = set()
         self.random_place_carrots()
 
-# place carrots for pc randomly.
+    # place carrots for pc randomly.
     def place_carrots(self, row, col):
-         if (row, col) not in self.carrots and len(self.carrots) < self.num_carrots:
+        if (row, col) not in self.carrots and len(self.carrots) < self.num_carrots:
             self.carrots.add((row, col))
             return True
+        return False
         
     def random_place_carrots(self):
         while len(self.carrots) < self.num_carrots:
@@ -45,6 +46,7 @@ class Field:
         if (row, col) in self.carrots:
             self.grid[row][col] = 'C'
             print("You found a carrot!")
+            # message with remaining carrots adjusting case for plural
             remaining = self.carrots_remaining()
             if remaining > 0:
                 plural = "carrots" if remaining > 1 else "carrot"
