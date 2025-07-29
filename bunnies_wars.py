@@ -1,14 +1,13 @@
 import random
 
-
 # input player name print welcome message
 def player_name():
     name= input('Enter your name: ').strip()
     if not name:
         name= 'Bunny One'
-        print(f'\n Welcome {name} to the Bunnies Wars game!\n')
-        return name
-    
+    print(f'\n Welcome {name} to the Bunnies Wars game!\n')
+    return name
+
 
 # Class Field (self, size, num_carrots).
 # create 2 field for user and computer with a given size and number of carrots.
@@ -22,35 +21,46 @@ class Field:
         self.carrots: set[tuple[int, int]] = set()
         self.found: set[tuple[int, int]] = set()
 
-        self.place_carrots()
-
+#        self.place_carrots()
+        self.random_place_carrots()
 
 # place carrots for pc randomly.
-    def place_carrots(self):
+    def place_carrots(self, row, col):
+         if (row, col) not in self.carrots and len(self.carrots) < self.num_carrots:
+            self.carrots.add((row, col))
+            return True
+        
+
+    def random_place_carrots(self):
         while len(self.carrots) < self.num_carrots:
-            x = random.randint(0, self.size -1)
-            y = random.randint(0, self.size -1)
-            self.carrots.add((x, y))
+            row = random.randint(0, self.size -1)
+            col = random.randint(0, self.size -1)
+            self.carrots.add((row, col))
 
 
-    def dig(self, x: int, y: int):
-        '''Digging at coordinates (x, y) and check if it is carrot at this position.'''
-        if not (0 <= x < self.size and 0 <= y < self.size):
+    def dig(self, row: int, col: int):
+        '''Digging at coordinates and check if it is carrot at this position.'''
+        if not (0 <= row < self.size and 0 <= col < self.size):
             print('Oh, no! Invalid coordinates, try whithin the grid size.')
             return False
         
-        if (x, y) in self.found:
+        if (row, col) in self.found:
             print('Already dug this spot, try another one.')
             return False
         
-        self.found.add((x, y))
+        self.found.add((row, col))
 
-        if (x, y) in self.carrots:
-            self.grid[x][y] = 'C'
+        if (row, col) in self.carrots:
+            self.grid[row][col] = 'C'
             print("You found a carrot!")
+            remaining = self.carrots_remaining()
+            if remaining > 0:
+                plural = "carrots" if remaining > 1 else "carrot"
+                print(f"Still hiding: {remaining} {plural}")
         else:
-            self.grid[x][y] = 'X'
+            self.grid[row][col] = 'X'
             print('Nothing here.')
+            
         return True
     
 
@@ -97,9 +107,9 @@ def game_loop():
     while len(field.carrots & field.found) < num_carrots:
         field.display()
         try:      # get user imputs for coordinates
-            x = int(input(f'Enter row (0 to {size - 1}): '))
-            y = int(input(f'Enter column (0 to {size-1}): '))
-            field.dig(x, y)
+            row = int(input(f'Enter row (0 to {size - 1}): '))
+            col = int(input(f'Enter column (0 to {size-1}): '))
+            field.dig(row, col)
         except ValueError:
             print(f'Invalid entry, please enter only integers between 0 and {size-1}.')
     # end the game when all carrots are collected    
