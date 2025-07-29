@@ -10,18 +10,13 @@ def player_name():
 
 
 # Class Field (self, size, num_carrots).
-# create 2 field for user and computer with a given size and number of carrots.
 class Field:
-    '''Initialize the field with a grid and place carrots.'''
     def __init__(self, size: int, num_carrots: int):
         self.grid: list[list[str]] = [['*' for _ in range(size)] for _ in range(size)]
         self.size: int = size # sizes of a squared grid (x*x)
         self.num_carrots: int = num_carrots #hidden carrots (int)
-
         self.carrots: set[tuple[int, int]] = set()
         self.found: set[tuple[int, int]] = set()
-
-#        self.place_carrots()
         self.random_place_carrots()
 
 # place carrots for pc randomly.
@@ -30,26 +25,23 @@ class Field:
             self.carrots.add((row, col))
             return True
         
-
     def random_place_carrots(self):
         while len(self.carrots) < self.num_carrots:
             row = random.randint(0, self.size -1)
             col = random.randint(0, self.size -1)
             self.carrots.add((row, col))
 
-
     def dig(self, row: int, col: int):
         '''Digging at coordinates and check if it is carrot at this position.'''
         if not (0 <= row < self.size and 0 <= col < self.size):
             print('Oh, no! Invalid coordinates, try whithin the grid size.')
             return False
-        
+        # Check if the position was already dug
         if (row, col) in self.found:
             print('Already dug this spot, try another one.')
             return False
-        
+        # Mark the position as dug
         self.found.add((row, col))
-
         if (row, col) in self.carrots:
             self.grid[row][col] = 'C'
             print("You found a carrot!")
@@ -60,25 +52,22 @@ class Field:
         else:
             self.grid[row][col] = 'X'
             print('Nothing here.')
-            
         return True
     
-
+    '''Display the grid and what so far has been found.'''
     def display(self):
-        '''Display the grid and what so far has been found.'''
         print("\nField:")
-        # Print column headers
+        # define and print column headers
         col_headers = "   " + " ".join(f"{j}" for j in range(self.size))
-        # print column header
         print(col_headers)
+        # print each row with an index number
         for i in range(self.size):
             row =[]
-
             for j in range(self.size):
                 if (i, j) in self.found:
                     row.append(self.grid[i][j])
                 else:
-                    row.append('*') # Hidden tile
+                    row.append('*') # Hiding tile
             # Print row number and row contents
             print(f"{i}  " + " ".join(row))
         print()
@@ -87,15 +76,16 @@ class Field:
         '''Returns the amount of carrots to be found.'''
         return len(self.carrots - self.found)    
 
-# Game loop
+
+# Game loop Function
 def game_loop():
     size: int = 5
     num_carrots: int = 6
     field = Field(size, num_carrots)
     player_name()
     # Game Introduction and description
-    print('As often in life is the case, "The grass on the other side of the fence is greener". In this case, is the field of your opponent, the PC-Bunny, greener.')
-    print('Try to find all the carrots that have been planted by the PC-Bunny: enter the coordinates (x, y) to check each position ...in the mean time, the PC-Bunny had a similar idea and is digging the carrots you planted.')
+    print('As often in life is the case, "The grass on the other side of the fence is greener".\nIn this case, is the field of your opponent, the PC-Bunny, greener.')
+    print('Try to find all the carrots that have been planted by the PC-Bunny:\nenter the coordinates (x, y) to check each position\n...in the mean time, the PC-Bunny had a similar idea and is digging the carrots you planted.')
     print('The game ends when all the carrots are found. Try to find them all! (...before the PC-Bunny') 
     print('Good Luck!\n')
     # Game Title
@@ -104,6 +94,7 @@ def game_loop():
     print('*' * 34)
     # Game Instructions
     print(f'Dig to find {num_carrots} carrots in a {size}x{size} field.')
+    # Game loop until all the carrots are found
     while len(field.carrots & field.found) < num_carrots:
         field.display()
         try:      # get user imputs for coordinates
