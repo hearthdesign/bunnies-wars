@@ -12,7 +12,7 @@ def player_name():
 # Class Field (self, size, num_carrots).
 class Field:
     def __init__(self, size: int, num_carrots: int):
-        self.grid: list[list[str]] = [['*' for _ in range(size)] for _ in range(size)]
+        self.grid: list[list[str]] = [['🍀' for _ in range(size)] for _ in range(size)]
         self.size: int = size # sizes of a squared grid (x*x)
         self.num_carrots: int = num_carrots #hidden carrots (int)
         self.carrots: set[tuple[int, int]] = set()
@@ -45,7 +45,7 @@ class Field:
         # Mark the position if the carrot is found
         self.found.add((row, col))
         if (row, col) in self.carrots:
-            self.grid[row][col] = 'C'
+            self.grid[row][col] = '🥕'
             print("You found a carrot!")
             # message with remaining carrots adjusting case for plural
             remaining = self.carrots_remaining()
@@ -55,7 +55,7 @@ class Field:
             return True    
         else:
             # Mark the position as dug
-            self.grid[row][col] = 'X'
+            self.grid[row][col] = '🕳️ '
             print('Nothing here.')
         return False
     
@@ -63,8 +63,8 @@ class Field:
     def display(self):
         print("\nField:")
         # define and print column headers
-        col_headers = "   " + " ".join(f"{j} " for j in range(self.size))
-        print(col_headers)
+        col_headers = "   " + " ".join(f" {j}" for j in range(self.size))
+        print((col_headers)+"\n")
         # print each row with an index number
         for i in range(self.size):
             row =[]
@@ -72,15 +72,14 @@ class Field:
                 if (i, j) in self.found:
                     row.append(self.grid[i][j])
                 else:
-                    row.append('* ') # Hiding tile
+                    row.append('🍀') # Hiding tile
             # Print row number and row contents
-            print(f"{i}  " + " ".join(row))
+            print(f"{i}  " +" ".join(row))
         print()
 
     '''Amount of carrots to be found.'''
     def carrots_remaining(self):
         return len(self.carrots - self.found)    
-
 
 
 class Game:
@@ -121,7 +120,7 @@ class Game:
         # Game Title
         print('*' * 34)
         print('***  Welcome to Bunnies Wars!  ***')
-        print(f'   * {name} vs PC-Bunny *    ')
+        print(f'     * {name} * vs * PC-Bunny *     ')
         print('*' * 34)
         # Game Instructions
         print(f'Dig to find {self.num_carrots} carrots in a {self.size}x{self.size} field.')
@@ -150,11 +149,11 @@ class Game:
                 #if (row, col) in pc_field.carrots:
                 pc_score += 1
                 self.pc_field.grid[row][col] = '🥕'
-                print("PC-Bunny found a carrot!")
+                print("PC-Bunny found a carrot!\n")
             else:
                 self.pc_field.grid[row][col] = '🕳️ '
-                print("PC-Bunny found nothing.")
-            self.pc_field.display()
+                print("PC-Bunny found nothing.\n")
+            
             # --- Score Update ---
             print(f"Scores — You: {player_score}  |  PC Bunny: {pc_score}")
 
@@ -165,7 +164,7 @@ class Game:
         else:
             print("\nThe PC Bunny won... Better luck next time!")
 
-        print("🗺️ Your field:")
+        print("Your field:")
         self.pc_field.display()
         print("PC-Bunny's field:")
         self.your_field.display()
