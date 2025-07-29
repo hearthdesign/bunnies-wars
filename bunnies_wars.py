@@ -25,15 +25,16 @@ class Field:
             self.carrots.add((row, col))
             return True
         return False
-        
+
+    '''Randomly place carrots on the field.'''    
     def random_place_carrots(self):
         while len(self.carrots) < self.num_carrots:
             row = random.randint(0, self.size -1)
             col = random.randint(0, self.size -1)
             self.carrots.add((row, col))
 
+    '''Digging at coordinates'''
     def dig(self, row: int, col: int):
-        '''Digging at coordinates and check if it is carrot at this position.'''
         if not (0 <= row < self.size and 0 <= col < self.size):
             print('Oh, no! Invalid coordinates, try whithin the grid size.')
             return False
@@ -41,7 +42,7 @@ class Field:
         if (row, col) in self.found:
             print('Already dug this spot, try another one.')
             return False
-        # Mark the position as dug
+        # Mark the position if the carrot is found
         self.found.add((row, col))
         if (row, col) in self.carrots:
             self.grid[row][col] = 'C'
@@ -51,16 +52,18 @@ class Field:
             if remaining > 0:
                 plural = "carrots" if remaining > 1 else "carrot"
                 print(f"Still hiding: {remaining} {plural}")
+            return True    
         else:
+            # Mark the position as dug
             self.grid[row][col] = 'X'
             print('Nothing here.')
-        return True
+        return False
     
-    '''Display the grid and what so far has been found.'''
+    '''Display the field with discovered tiles'''
     def display(self):
         print("\nField:")
         # define and print column headers
-        col_headers = "   " + " ".join(f"{j}" for j in range(self.size))
+        col_headers = "   " + " ".join(f"{j} " for j in range(self.size))
         print(col_headers)
         # print each row with an index number
         for i in range(self.size):
@@ -69,13 +72,13 @@ class Field:
                 if (i, j) in self.found:
                     row.append(self.grid[i][j])
                 else:
-                    row.append('*') # Hiding tile
+                    row.append('* ') # Hiding tile
             # Print row number and row contents
             print(f"{i}  " + " ".join(row))
         print()
 
+    '''Amount of carrots to be found.'''
     def carrots_remaining(self):
-        '''Returns the amount of carrots to be found.'''
         return len(self.carrots - self.found)    
 
 
