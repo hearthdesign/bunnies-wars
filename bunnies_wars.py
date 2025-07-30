@@ -40,7 +40,7 @@ class Field:
             self.no_repeat_carrots((row, col))
 
     '''Digging at coordinates'''
-    def dig(self, row: int, col: int):
+    def dig(self, row: int, col: int, silent = False):
         if not (
             0 <= row < self.size and 0 <= col < self.size
         ):
@@ -54,12 +54,13 @@ class Field:
         self.found.add((row, col))
         if (row, col) in self.carrots:
             self.grid[row][col] = '🥕'
-            print("You found a carrot!")
-            # message with remaining carrots adjusting case for plural
-            remaining = self.carrots_remaining()
-            if remaining > 0:
-                plural = "carrots" if remaining > 1 else "carrot"
-                print(f"Still hiding: {remaining} {plural}")
+            if not silent:
+                print("You found a carrot!")
+                # message with remaining carrots adjusting case for plural
+                remaining = self.carrots_remaining()
+                if remaining > 0:
+                    plural = "carrots" if remaining > 1 else "carrot"
+                    print(f"Still hiding: {remaining} {plural}")
             return True
         else:
             # Mark the position as dug
