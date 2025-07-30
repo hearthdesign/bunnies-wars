@@ -22,8 +22,8 @@ class Field:
         self.found: set[tuple[int, int]] = set()
         self.random_place_carrots()
 
-    # place carrots for pc randomly.
-    def place_carrots(self, row, col):
+    # ensures no duplicates to random_place_carrots 
+    def no_repeat_carrots(self, row, col):
         if (
             (row, col) not in self.carrots and
                 len(self.carrots) < self.num_carrots
@@ -31,12 +31,14 @@ class Field:
             self.carrots.add((row, col))
             return True
         return False
+    
     '''Randomly place carrots on the field.'''
     def random_place_carrots(self):
         while len(self.carrots) < self.num_carrots:
             row = random.randint(0, self.size - 1)
             col = random.randint(0, self.size - 1)
-            self.carrots.add((row, col))
+            self.no_repeat_carrots((row, col))
+
     '''Digging at coordinates'''
     def dig(self, row: int, col: int):
         if not (
