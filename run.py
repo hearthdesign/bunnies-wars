@@ -55,7 +55,7 @@ class Field:
         if (row, col) in self.carrots:
             self.grid[row][col] = '🥕'
             if not silent:
-                print("You found a carrot!")
+                print("You found a carrot!\n")
                 # message with remaining carrots adjusting case for plural
                 remaining = self.carrots_remaining()
                 if remaining > 0:
@@ -70,7 +70,7 @@ class Field:
 
     '''Display the field with discovered tiles'''
     def display(self):
-        print("\nField:")
+        # print("Your Field: ")
         # define and print column headers
         col_headers = "   " + " ".join(f" {j}"
                                        for j in range(self.size))
@@ -120,16 +120,17 @@ class Game:
         print('First to find all carrots wins!\n')
         print('Good Luck!\n')
         # Game Title
-        print('*' * 38)
-        print('*****  Welcome to Bunnies Wars!  *****')
+        print('🐰' * 20)
+        print('🐰🐰*** Welcome to Bunnies Wars! ***🐰🐰')
         print('🐰🐰🐰 * {} * vs * PC-Bunny * 🐰🐰🐰'.format(name))
-        print('*' * 38)
+        print('🐰' * 20)
         # Game Instructions
-        print(f'Dig to find {num_carrots} carrots in a\n'
-              f'{size}x{size} field.')
+        print(f'\nDig to find {num_carrots} carrots in a\n'
+              f'{size}x{size} field.\n')
 
     # --- Player Turn ---
     def player_turn(self, field):
+        print("🐰 Your Field: 🐰")
         field.display()
         try:
             row = int(input("Your turn! Enter row: "))
@@ -142,15 +143,15 @@ class Game:
 
     # PC's digging turn
     def pc_turn(self, field):
-        field.display()
-        print("PC-Bunny is digging...")
+        print("\nPC-Bunny is digging...")
         while True:
             row = random.randint(0, field.size - 1)
             col = random.randint(0, field.size - 1)
             if (row, col) not in field.found:
                 break  # Ensure PC doesn’t dig same spot
-
         found = field.dig(row, col, silent=True)
+        print("\n👾 PC-Bunny Field: 👾")
+        field.display()
         if found:
             print("PC-Bunny found a carrot!\n")
             return 1
@@ -173,10 +174,12 @@ class Game:
             print('💀'*25)
             print('💀  The PC Bunny won... Better luck next time!  💀')
             print('💀'*25)
+            print()
 
     def reveal_fields(self, your_field, pc_field):
-        pc_field.display()
         print("👾 PC-Bunny's field: 👾")
+        pc_field.display()
+        print("🐰 Your Field: 🐰")
         your_field.display()
 
     # Game loop (main logic)
@@ -194,7 +197,6 @@ class Game:
         while player_score < num_carrots and pc_score < num_carrots:
             player_score += self.player_turn(your_field)
             pc_score += self.pc_turn(pc_field)
-            pc_field.display()
             self.print_scores(player_score, pc_score)
 
         # Final messages
