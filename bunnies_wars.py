@@ -86,18 +86,17 @@ class Field:
             # Print row number and row contents
             print(f"{i}  " + " ".join(row))
         print()
+        
     '''Amount of carrots to be found.'''
     def carrots_remaining(self):
         return len(self.carrots - self.found)
 
-
+# Game class that handles full game logic
 class Game:
     def __init__(self):
+        # Size and carrot count options
         self.size_options = {1: (4, 4), 2: (6, 9), 3: (8, 15)}
-        self.size = None
-        self.num_carrots = None
-        self.your_field = None
-        self.pc_field = None
+
 
     # Set the size of the field and the number of carrots
     def setup_game(self):
