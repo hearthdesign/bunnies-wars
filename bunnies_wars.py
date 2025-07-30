@@ -22,7 +22,7 @@ class Field:
         self.found: set[tuple[int, int]] = set()
         self.random_place_carrots()
 
-    # ensures no duplicates to random_place_carrots 
+    # ensures no duplicates to random_place_carrots
     def no_repeat_carrots(self, row, col):
         if (
             (row, col) not in self.carrots and
@@ -31,7 +31,7 @@ class Field:
             self.carrots.add((row, col))
             return True
         return False
-    
+
     '''Randomly place carrots on the field.'''
     def random_place_carrots(self):
         while len(self.carrots) < self.num_carrots:
@@ -40,7 +40,7 @@ class Field:
             self.no_repeat_carrots((row, col))
 
     '''Digging at coordinates'''
-    def dig(self, row: int, col: int, silent = False):
+    def dig(self, row: int, col: int, silent=False):
         if not (
             0 <= row < self.size and 0 <= col < self.size
         ):
@@ -86,7 +86,7 @@ class Field:
             # Print row number and row contents
             print(f"{i}  " + " ".join(row))
         print()
-        
+
     '''Amount of carrots to be found.'''
     def carrots_remaining(self):
         return len(self.carrots - self.found)
@@ -127,14 +127,15 @@ class Game:
               f'{size}x{size} field.')
 
     # --- Player Turn ---
-    def player_turn(self, field):    
+    def player_turn(self, field):
         field.display()
         try:
             row = int(input("Your turn! Enter row: "))
             col = int(input("Enter column: "))
             return 1 if field.dig(row, col) else 0  # Return score increment
         except ValueError:
-            print(f'Invalid entry, please enter only integers between 0 and {field.size - 1}.')
+            print(f'Invalid entry, please enter only integers between 0 and'
+                  f'{field.size - 1}.')
             return 0
 
     # PC's digging turn
@@ -147,7 +148,7 @@ class Game:
             if (row, col) not in field.found:
                 break  # Ensure PC doesn’t dig same spot
 
-        found = field.dig(row, col, silent = True)
+        found = field.dig(row, col, silent=True)
         if found:
             print("PC-Bunny found a carrot!\n")
             return 1
