@@ -126,22 +126,6 @@ class Game:
         print(f'Dig to find {num_carrots} carrots in a\n'
               f'{size}x{size} field.')
 
-    # Game Introduction, rules and welcome message
-    def print_intro(self, name, size, num_carrots):
-        print('The grass is always greener on the other side...')
-        print('Try to dig up all the carrots hidden by the PC-Bunny!')
-        print('Meanwhile, the PC-Bunny is digging up your carrots...')
-        print('First to find all carrots wins!\n')
-        print('Good Luck!\n')
-        # Game Title
-        print('*' * 38)
-        print('*****  Welcome to Bunnies Wars!  *****')
-        print('🐰🐰🐰 * {} * vs * PC-Bunny * 🐰🐰🐰'.format(name))
-        print('*' * 38)
-        # Game Instructions
-        print(f'Dig to find {num_carrots} carrots in a\n'
-              f'{size}x{size} field.')
-
     # --- Player Turn ---
     def player_turn(self, field):    
         field.display()
@@ -187,7 +171,7 @@ class Game:
             print('💀  The PC Bunny won... Better luck next time!  💀')
             print('💀'*25)
 
-        print("🐰 Your field: 🐰")
+def reveal_fields(self, your_field, pc_field):
         self.pc_field.display()
         print("👾 PC-Bunny's field: 👾")
         self.your_field.display()
