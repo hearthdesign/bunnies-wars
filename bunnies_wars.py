@@ -37,7 +37,7 @@ class Field:
         while len(self.carrots) < self.num_carrots:
             row = random.randint(0, self.size - 1)
             col = random.randint(0, self.size - 1)
-            self.no_repeat_carrots((row, col))
+            self.no_repeat_carrots(row, col)
 
     '''Digging at coordinates'''
     def dig(self, row: int, col: int, silent=False):
@@ -97,6 +97,8 @@ class Game:
     def __init__(self):
         # Size and carrot count options (size and num of carrots)
         self.size_options = {1: (4, 4), 2: (6, 9), 3: (8, 15)}
+        self.your_field = None  # Player's field
+        self.pc_field = None  # PC's field
 
     # Player sets the size of the field and (established) the number of carrots
     def setup_game(self):
@@ -165,7 +167,7 @@ class Game:
         print("\nGame Over!")
         if player_score == num_carrots:
             print('⭐'*23)
-            print(f"\n⭐⭐⭐  {name}, you won the Bunny War!   ⭐⭐⭐")
+            print(f"⭐⭐⭐  {name}, you won the Bunny War!   ⭐⭐⭐")
             print('⭐'*23)
         else:
             print('💀'*25)
@@ -173,15 +175,15 @@ class Game:
             print('💀'*25)
 
     def reveal_fields(self, your_field, pc_field):
-        self.pc_field.display()
+        pc_field.display()
         print("👾 PC-Bunny's field: 👾")
-        self.your_field.display()
+        your_field.display()
 
     # Game loop (main logic)
     def game_loop(self):
         size, num_carrots = self.setup_game()
-        self.print_intro(name, size, num_carrots)
         name = player_name()
+        self.print_intro(name, size, num_carrots)
         # Carrots hidden (random funtion) "by the PC" (player digs here)
         your_field = Field(size, num_carrots)
         # Carrots hidden (random funtion) "by player" (PC digs here)
