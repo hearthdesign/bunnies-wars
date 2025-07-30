@@ -171,7 +171,7 @@ class Game:
             print('💀  The PC Bunny won... Better luck next time!  💀')
             print('💀'*25)
 
-def reveal_fields(self, your_field, pc_field):
+    def reveal_fields(self, your_field, pc_field):
         self.pc_field.display()
         print("👾 PC-Bunny's field: 👾")
         self.your_field.display()
