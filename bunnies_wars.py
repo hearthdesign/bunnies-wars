@@ -126,24 +126,6 @@ class Game:
         print(f'Dig to find {num_carrots} carrots in a\n'
               f'{size}x{size} field.')
 
-
-
-
-
-      
-        
-    # Game loop (main logic)
-    def game_loop(self):
-        size, num_carrots = self.setup_game()
-        self.print_intro(name, size, num_carrots)
-        name = player_name()
-        # Carrots hidden (random funtion) "by the PC" (player digs here)
-        your_field = Field(size, num_carrots)
-        # Carrots hidden (random funtion) "by player" (PC digs here)
-        pc_field = Field(size, num_carrots)
-        player_score = 0
-        pc_score = 0
-
     # Game Introduction, rules and welcome message
     def print_intro(self, name, size, num_carrots):
         print('The grass is always greener on the other side...')
@@ -159,44 +141,44 @@ class Game:
         # Game Instructions
         print(f'Dig to find {num_carrots} carrots in a\n'
               f'{size}x{size} field.')
-        
-        # Game loop until all the carrots are found
-        while player_score < self.num_carrots and pc_score < self.num_carrots:
-            # --- Player Turn ---
-            self.your_field.display()
-            try:      # get user imputs for coordinates
-                row = int(input("Your turn! Enter row: "))
-                col = int(input("Enter column: "))
-                if self.your_field.dig(row, col):
-                    if (row, col) in self.your_field.carrots:
-                        player_score += 1
-            except ValueError:
-                print(f'Invalid entry, please enter only integers\n'
-                      f'between 0 and {self.size-1}.')
 
-            # --- PC Turn ---
-            print("PC-Bunny is digging...")
+    # --- Player Turn ---
+    def player_turn(self, field):    
+        field.display()
+        try:
+            row = int(input("Your turn! Enter row: "))
+            col = int(input("Enter column: "))
+            return 1 if field.dig(row, col) else 0  # Return score increment
+        except ValueError:
+            print(f'Invalid entry, please enter only integers between 0 and {field.size - 1}.')
+            return 0
 
-            while True:
-                row = random.randint(0, self.size - 1)
-                col = random.randint(0, self.size - 1)
-                if (row, col) not in self.pc_field.found:
-                    break
-            if self.pc_field.dig(row, col):
-                # if (row, col) in pc_field.carrots:
-                pc_score += 1
-                self.pc_field.grid[row][col] = '🥕'
-                print("PC-Bunny found a carrot!\n")
-            else:
-                self.pc_field.grid[row][col] = '🕳️ '
-                print("PC-Bunny found nothing.\n")
+    # PC's digging turn
+    def pc_turn(self, field):
+        field.display()
+        print("PC-Bunny is digging...")
+        while True:
+            row = random.randint(0, field.size - 1)
+            col = random.randint(0, field.size - 1)
+            if (row, col) not in field.found:
+                break  # Ensure PC doesn’t dig same spot
 
-            # --- Score Update ---
-            print(f"Scores — You: {player_score}  |  PC Bunny: {pc_score}")
+        found = field.dig(row, col, silent = True)
+        if found:
+            print("PC-Bunny found a carrot!\n")
+            return 1
+        else:
+            print("PC-Bunny found nothing.\n")
+            return 0
 
-        # --- Game Over ---
+    # Show current scores
+    def print_scores(self, player_score, pc_score):
+        print(f"Scores — You: {player_score} | PC Bunny: {pc_score}\n")
+
+    # --- Game Over and winner message---
+    def print_game_result(self, name, player_score, pc_score, num_carrots):
         print("\nGame Over!")
-        if player_score == self.num_carrots:
+        if player_score == num_carrots:
             print('⭐'*23)
             print(f"\n⭐⭐⭐  {name}, you won the Bunny War!   ⭐⭐⭐")
             print('⭐'*23)
@@ -205,11 +187,22 @@ class Game:
             print('💀  The PC Bunny won... Better luck next time!  💀')
             print('💀'*25)
 
-        print("🐰 Your field:")
+        print("🐰 Your field: 🐰")
         self.pc_field.display()
-        print("👾 PC-Bunny's field:")
+        print("👾 PC-Bunny's field: 👾")
         self.your_field.display()
 
+    # Game loop (main logic)
+    def game_loop(self):
+        size, num_carrots = self.setup_game()
+        self.print_intro(name, size, num_carrots)
+        name = player_name()
+        # Carrots hidden (random funtion) "by the PC" (player digs here)
+        your_field = Field(size, num_carrots)
+        # Carrots hidden (random funtion) "by player" (PC digs here)
+        pc_field = Field(size, num_carrots)
+        player_score = 0
+        pc_score = 0
 
 # Run the game
 if __name__ == "__main__":
