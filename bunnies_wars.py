@@ -94,35 +94,24 @@ class Field:
 # Game class that handles full game logic
 class Game:
     def __init__(self):
-        # Size and carrot count options
+        # Size and carrot count options (size and num of carrots)
         self.size_options = {1: (4, 4), 2: (6, 9), 3: (8, 15)}
 
 
-    # Set the size of the field and the number of carrots
+    # Player sets the size of the field and (established) the number of carrots
     def setup_game(self):
         print("Choose field size:\n1. 4x4\n2. 6x6\n3. 8x8")
         while True:
             try:
                 choice = int(input("Enter choice (1-3): "))
                 if choice in self.size_options:
-                    self.size, self.num_carrots = self.size_options[choice]
-                    break
+                    return self.size_options[choice]  # Return selected option
             except ValueError:
                 pass
             print("Invalid choice. Please enter 1, 2, or 3.")
 
-    # Game loop Function
-    def game_loop(self):
-        self.setup_game()
-        # Carrots hidden by PC (player digs here)
-        self.your_field = Field(self.size, self.num_carrots)
-        # Carrots hidden by player (PC digs here)
-        self.pc_field = Field(self.size, self.num_carrots)
-        player_score = 0
-        pc_score = 0
-        name = player_name()
-
-        # Game Introduction and description
+    # Game Introduction, rules and welcome message
+    def print_intro(self, name, size, num_carrots):
         print('The grass is always greener on the other side...')
         print('Try to dig up all the carrots hidden by the PC-Bunny!')
         print('Meanwhile, the PC-Bunny is digging up your carrots...')
@@ -131,11 +120,46 @@ class Game:
         # Game Title
         print('*' * 38)
         print('*****  Welcome to Bunnies Wars!  *****')
-        print(f'🐰🐰🐰 * {name} * vs * PC-Bunny * 🐰🐰🐰')
+        print('🐰🐰🐰 * {} * vs * PC-Bunny * 🐰🐰🐰'.format(name))
         print('*' * 38)
         # Game Instructions
-        print(f'Dig to find {self.num_carrots} carrots in a\n'
-              f'{self.size}x{self.size} field.')
+        print(f'Dig to find {num_carrots} carrots in a\n'
+              f'{size}x{size} field.')
+
+
+
+
+
+      
+        
+    # Game loop (main logic)
+    def game_loop(self):
+        size, num_carrots = self.setup_game()
+        self.print_intro(name, size, num_carrots)
+        name = player_name()
+        # Carrots hidden (random funtion) "by the PC" (player digs here)
+        your_field = Field(size, num_carrots)
+        # Carrots hidden (random funtion) "by player" (PC digs here)
+        pc_field = Field(size, num_carrots)
+        player_score = 0
+        pc_score = 0
+
+    # Game Introduction, rules and welcome message
+    def print_intro(self, name, size, num_carrots):
+        print('The grass is always greener on the other side...')
+        print('Try to dig up all the carrots hidden by the PC-Bunny!')
+        print('Meanwhile, the PC-Bunny is digging up your carrots...')
+        print('First to find all carrots wins!\n')
+        print('Good Luck!\n')
+        # Game Title
+        print('*' * 38)
+        print('*****  Welcome to Bunnies Wars!  *****')
+        print('🐰🐰🐰 * {} * vs * PC-Bunny * 🐰🐰🐰'.format(name))
+        print('*' * 38)
+        # Game Instructions
+        print(f'Dig to find {num_carrots} carrots in a\n'
+              f'{size}x{size} field.')
+        
         # Game loop until all the carrots are found
         while player_score < self.num_carrots and pc_score < self.num_carrots:
             # --- Player Turn ---
