@@ -96,6 +96,7 @@ class Game:
         self.your_field = None
         self.pc_field = None
 
+    # Set the size of the field and the number of carrots
     def setup_game(self):
         print("Choose field size:\n1. 4x4\n2. 6x6\n3. 8x8")
         while True:
@@ -132,7 +133,7 @@ class Game:
         print('*' * 38)
         # Game Instructions
         print(f'Dig to find {self.num_carrots} carrots in a\n'
-              '{self.size}x{self.size} field.')
+              f'{self.size}x{self.size} field.')
         # Game loop until all the carrots are found
         while player_score < self.num_carrots and pc_score < self.num_carrots:
             # --- Player Turn ---
@@ -145,7 +146,7 @@ class Game:
                         player_score += 1
             except ValueError:
                 print(f'Invalid entry, please enter only integers\n'
-                      'between 0 and {self.size-1}.')
+                      f'between 0 and {self.size-1}.')
 
             # --- PC Turn ---
             print("PC-Bunny is digging...")
