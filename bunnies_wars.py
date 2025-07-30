@@ -91,12 +91,12 @@ class Field:
     def carrots_remaining(self):
         return len(self.carrots - self.found)
 
+
 # Game class that handles full game logic
 class Game:
     def __init__(self):
         # Size and carrot count options (size and num of carrots)
         self.size_options = {1: (4, 4), 2: (6, 9), 3: (8, 15)}
-
 
     # Player sets the size of the field and (established) the number of carrots
     def setup_game(self):
@@ -203,8 +203,18 @@ class Game:
         pc_field = Field(size, num_carrots)
         player_score = 0
         pc_score = 0
+        # Continue game until one finds all carrots
+        while player_score < num_carrots and pc_score < num_carrots:
+            player_score += self.player_turn(your_field)
+            pc_score += self.pc_turn(pc_field)
+            pc_field.display()
+            self.print_scores(player_score, pc_score)
+
+        # Final messages
+        self.print_game_result(name, player_score, pc_score, num_carrots)
+        self.reveal_fields(your_field, pc_field)
+
 
 # Run the game
 if __name__ == "__main__":
-    game = Game()
-    game.game_loop()
+    Game().game_loop()
