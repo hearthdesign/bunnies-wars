@@ -170,6 +170,7 @@ class Game:
             print('⭐'*23)
             print(f"⭐⭐⭐  {name}, you won the Bunny War!   ⭐⭐⭐")
             print('⭐'*23)
+            print()
         else:
             print('💀'*25)
             print('💀  The PC Bunny won... Better luck next time!  💀')
