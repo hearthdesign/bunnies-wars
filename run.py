@@ -3,7 +3,7 @@ import random
 
 # input player name print welcome message
 def player_name():
-    name = input('Enter your name: ').strip()
+    name = input('Enter your name:\n').strip()
     if not name:
         name = 'Bunny One'
     print(f'\n Welcome {name} to the Bunnies Wars game!\n')
@@ -105,7 +105,7 @@ class Game:
         print("Choose field size:\n1. 4x4\n2. 6x6\n3. 8x8")
         while True:
             try:
-                choice = int(input("Enter choice (1-3): "))
+                choice = int(input("Enter choice (1-3):\n"))
                 if choice in self.size_options:
                     return self.size_options[choice]  # Return selected option
             except ValueError:
@@ -133,8 +133,8 @@ class Game:
         print("🐰 Your Field: 🐰")
         field.display()
         try:
-            row = int(input("Your turn! Enter row: "))
-            col = int(input("Enter column: "))
+            row = int(input("Your turn! Enter row:\n"))
+            col = int(input("Enter column:\n"))
             return 1 if field.dig(row, col) else 0  # Return score increment
         except ValueError:
             print(f'Invalid entry, please enter only integers between 0 and'
