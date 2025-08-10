@@ -14,7 +14,7 @@ def player_name():
 class Field:
     def __init__(self, size: int, num_carrots: int):
         self.grid: list[list[str]] = [
-            ['🍀'for _ in range(size)]for _ in range(size)
+            ['🍀 'for _ in range(size)]for _ in range(size)
             ]
         self.size: int = size  # sizes of a squared grid (x*x)
         self.num_carrots: int = num_carrots  # hidden carrots (int)
@@ -53,7 +53,7 @@ class Field:
         # Mark the position if the carrot is found
         self.found.add((row, col))
         if (row, col) in self.carrots:
-            self.grid[row][col] = '🥕'
+            self.grid[row][col] = '🥕 '
             if not silent:
                 print("You found a carrot!\n")
                 # message with remaining carrots adjusting case for plural
@@ -82,7 +82,7 @@ class Field:
                 if (i, j) in self.found:
                     row.append(self.grid[i][j])
                 else:
-                    row.append('🍀')  # Hiding tile
+                    row.append('🍀 ')  # Hiding tile
             # Print row number and row contents
             print(f"{i}  " + " ".join(row))
         print()
@@ -120,10 +120,10 @@ class Game:
         print('First to find all carrots wins!\n')
         print('Good Luck!\n')
         # Game Title
-        print('🐰' * 20)
+        print('🐰' * 35)
         print('🐰🐰*** Welcome to Bunnies Wars! ***🐰🐰')
-        print('🐰🐰🐰 * {} * vs * PC-Bunny * 🐰🐰🐰'.format(name))
-        print('🐰' * 20)
+        print('🐰🐰🐰🐰 * {} * vs * PC-Bunny * 🐰🐰🐰🐰'.format(name))
+        print('🐰' * 35)
         # Game Instructions
         print(f'\nDig to find {num_carrots} carrots in a\n'
               f'{size}x{size} field.\n')
@@ -167,14 +167,14 @@ class Game:
     def print_game_result(self, name, player_score, pc_score, num_carrots):
         print("\nGame Over!")
         if player_score == num_carrots:
-            print('⭐'*23)
+            print('⭐'*35)
             print(f"⭐⭐⭐  {name}, you won the Bunny War!   ⭐⭐⭐")
-            print('⭐'*23)
+            print('⭐'*35)
             print()
         else:
-            print('💀'*25)
+            print('💀'*48)
             print('💀  The PC Bunny won... Better luck next time!  💀')
-            print('💀'*25)
+            print('💀'*48)
             print()
 
     def reveal_fields(self, your_field, pc_field):
