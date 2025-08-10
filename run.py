@@ -120,10 +120,10 @@ class Game:
         print('First to find all carrots wins!\n')
         print('Good Luck!\n')
         # Game Title
-        print('🐰' * 35)
+        print('🐰' * 36)
         print('🐰🐰*** Welcome to Bunnies Wars! ***🐰🐰')
         print('🐰🐰🐰🐰 * {} * vs * PC-Bunny * 🐰🐰🐰🐰'.format(name))
-        print('🐰' * 35)
+        print('🐰' * 36)
         # Game Instructions
         print(f'\nDig to find {num_carrots} carrots in a\n'
               f'{size}x{size} field.\n')
@@ -167,9 +167,9 @@ class Game:
     def print_game_result(self, name, player_score, pc_score, num_carrots):
         print("\nGame Over!")
         if player_score == num_carrots:
-            print('⭐'*35)
+            print('⭐'*42)
             print(f"⭐⭐⭐  {name}, you won the Bunny War!   ⭐⭐⭐")
-            print('⭐'*35)
+            print('⭐'*42)
             print()
         else:
             print('💀'*48)
